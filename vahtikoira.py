@@ -95,8 +95,12 @@ while True:
                 VahtiKoira=True
                 VahtiLaskuri=LaskuriTaysi
                 SininenLedi.value(0)
-            time.sleep(10)
-        if not VahtiKoira: SininenLedi.value(1)
+            time.sleep(1)
+        if not VahtiKoira:
+            SininenLedi.value(0)
+            time.sleep(0.1)
+            SininenLedi.value(1)
+            print('Vahtikoira OFF')
         if VahtiKoira:
             VahtiLaskuri-=1
             if VahtiLaskuri<0:
@@ -104,7 +108,7 @@ while True:
                 time.sleep(5)
                 relayON.value(1)
                 VahtiLaskuri=LaskuriTaysi
-                for x in range(300):
+                for x in range(30):
                     SininenLedi.value(1)
                     time.sleep(0.05)
                     SininenLedi.value(0)
