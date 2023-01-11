@@ -1,0 +1,24 @@
+# Wifi and vahtikoira watch
+vahtikoira off
+sleep 500
+vahtikoira on
+while true ; do
+      if ping -c 1 Vahtikoira ; then
+        echo Pingaa
+        sleep 60
+      else
+	notify-send "VAHTIKOIRA PING FAIL, 10 Min ja Wifi-rebo"
+	sleep 600
+        if ping -c 1 Vahtikoira ; then
+	        echo Pingaa
+        	sleep 60
+	else 
+             echo EI Pingaa
+	     wifi-off
+	     sleep 5
+	     wifi-on
+	     echo Wifi Rebo (no Vahtikoira) $( date ) >> /home/tnoko/Dropbox/Data/EIPINGAA.txt
+	     sleep 120
+	fi
+      fi
+done
