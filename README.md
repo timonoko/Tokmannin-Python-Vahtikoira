@@ -6,4 +6,4 @@ tilanne. Bootti venaa 20 sekunttia ennenkuin varsinainen koira käynnistyy, joll
 jumiutumistilanne voidaan korjata laitetta avaamatta WebREPLin kautta. Koko systeemin voi myös resetoida
 webin kautta. Mikäli pääkone (192.168.1.11) ei pysty pingamaan tätä vahtikoiraa (192.168.1.63), se käynnistää
 Wifin uudestaan. Rele pannaan päälle heti bootin alussa, jolloin Vahtikoira voi käynnistyä uudestaan
-katkasemasta virtaa pääkoneesta. 
+katkasematta virtaa pääkoneesta. 
