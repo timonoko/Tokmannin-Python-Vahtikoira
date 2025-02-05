@@ -1,6 +1,4 @@
 
-print('Testing ')
-
 try:
   import usocket as socket
 except:
@@ -10,7 +8,6 @@ import network,time,uping
 
 from machine import Pin
 
-
 relayON =Pin(5, Pin.OUT)  
 relayOFF =Pin(12, Pin.OUT)  
 SininenLedi = Pin(4, Pin.OUT)  
@@ -19,7 +16,7 @@ LO=0;HI=1
 
 ledi_timer=0
 VahtiKoira=True
-LaskuriTaysi=60*10
+LaskuriTaysi=200*10
 VahtiLaskuri=LaskuriTaysi
 relayON.value(1)
 
@@ -28,7 +25,7 @@ def web_page():
     if VahtiKoira: RS=""
     menu="""<p><a href="/6/on"><button class="button%s">ON</button> </a>"""%(RS)
     menu+="""<a href="/6/off"><button class="button button3">OFF</button> </a>"""
-    menu+="""<p><a href="/reset"><button class="button button3">RESET</button> </a>"""
+    menu+="""<p><a href="/reset"><button class="button button3">REBOOT</button> </a>"""
     sta_if = network.WLAN(network.STA_IF)
     this_ip=sta_if.ifconfig()[0]
     html = """
