@@ -16,7 +16,7 @@ LO=0;HI=1
 
 ledi_timer=0
 VahtiKoira=True
-LaskuriTaysi=1000*5
+LaskuriTaysi=2000*5
 VahtiLaskuri=LaskuriTaysi
 relayON.value(1)
 
@@ -26,6 +26,7 @@ def web_page():
     menu="""<p><a href="/6/on"><button class="button%s">ON</button> </a>"""%(RS)
     menu+="""<a href="/6/off"><button class="button button3">OFF</button> </a>"""
     menu+="""<p><a href="/reset"><button class="button button3">REBOOT</button> </a>"""
+    menu+="""<p><a href="/testi"><button class="button button3">TEST 200 </button> </a>"""
     sta_if = network.WLAN(network.STA_IF)
     this_ip=sta_if.ifconfig()[0]
     html = """
@@ -73,10 +74,14 @@ while True:
         s.settimeout(5.0)
         if request.find('/6/on') == 6:
             VahtiKoira=True
+            LaskuriTaysi=1000*5
             VahtiLaskuri=LaskuriTaysi
             relayON.value(1)
         if request.find('/6/off') == 6:
             VahtiKoira=False
+        if request.find('/testi') == 6:
+            VahtiKoira=True
+            LaskuriTaysi=200
         if request.find('/reset') == 6:
             print('reset1')
             relayON.value(0)
