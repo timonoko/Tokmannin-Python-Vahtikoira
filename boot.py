@@ -6,11 +6,6 @@ relayOFF =Pin(12, Pin.OUT)
 relayON.value(1)
 
 SininenLedi = Pin(4, Pin.OUT)  
-for x in range(50):
-    SininenLedi.value(1)
-    time.sleep(0.2)
-    SininenLedi.value(0)
-    time.sleep(0.2)
 
 def do_connect():
     import network
@@ -50,11 +45,11 @@ webrepl.start()
 do_not_connect()
 
 for x in range(10):
-    print('waiting')
+    print('waiting',x)
     SininenLedi.value(1)
-    time.sleep(0.1)
+    time.sleep(1)
     SininenLedi.value(0)
-    time.sleep(1.9)
+    time.sleep(1)
 
 import vahtikoira
 

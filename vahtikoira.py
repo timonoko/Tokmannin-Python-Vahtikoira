@@ -4,7 +4,7 @@ try:
 except:
   import socket
 
-import network,time,uping
+import network,time,uping,machine
 
 from machine import Pin
 
@@ -16,7 +16,7 @@ LO=0;HI=1
 
 ledi_timer=0
 VahtiKoira=True
-LaskuriTaysi=200*10
+LaskuriTaysi=1000*5
 VahtiLaskuri=LaskuriTaysi
 relayON.value(1)
 
@@ -49,12 +49,19 @@ def web_page():
    </html>"""
     return html
 
+kaynnistysviive=20
+
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.bind(('', 80))
 s.listen(5)
 
 from machine import WDT
 wdt=WDT() # about 6 seconds WatchDoG
+
+def mysleep(x):
+    for i in range(int(10*x)):
+        wdt.feed()
+        time.sleep(0.1)
 
 while True:
     wdt.feed()
@@ -71,11 +78,12 @@ while True:
         if request.find('/6/off') == 6:
             VahtiKoira=False
         if request.find('/reset') == 6:
+            print('reset1')
             relayON.value(0)
-            time.sleep(5)
+            mysleep(kaynnistysviive)
             relayON.value(1)
-            time.sleep(5)
-            import machine
+            print('reset2')
+            mysleep(kaynnistysviive)
             machine.reset()
         response = web_page()
         conn.send('HTTP/1.1 200 OK\n')
@@ -84,6 +92,7 @@ while True:
         conn.sendall(response)
         conn.close()
     except OSError:
+        wdt.feed();
         if BUTTON.value()==LO:
             if VahtiKoira:
                 VahtiKoira=False
@@ -92,24 +101,20 @@ while True:
                 VahtiKoira=True
                 VahtiLaskuri=LaskuriTaysi
                 SininenLedi.value(0)
-            time.sleep(1)
+            mysleep(1)
         if not VahtiKoira:
             SininenLedi.value(0)
-            time.sleep(0.1)
+            mysleep(0.1)
             SininenLedi.value(1)
             print('Vahtikoira OFF')
         if VahtiKoira:
             VahtiLaskuri-=1
             if VahtiLaskuri<0:
                 relayON.value(0)
-                time.sleep(5)
+                mysleep(kaynnistysviive)
                 relayON.value(1)
-                VahtiLaskuri=LaskuriTaysi
-                for x in range(30):
-                    SininenLedi.value(1)
-                    time.sleep(0.05)
-                    SininenLedi.value(0)
-                    time.sleep(0.05)
+                mysleep(kaynnistysviive)
+                mechine.reset()
             ledi_timer+=1
             if ledi_timer==5:
                 SininenLedi.value(1)
@@ -126,14 +131,14 @@ while True:
                     else:
                         for x in range(5):
                             SininenLedi.value(1)
-                            time.sleep(0.1)
+                            mysleep(0.1)
                             SininenLedi.value(0)
-                            time.sleep(0.1)
+                            mysleep(0.1)
                 else:
                     for x in range(10):
                         SininenLedi.value(1)
-                        time.sleep(0.1)
+                        mysleep(0.1)
                         SininenLedi.value(0)
-                        time.sleep(0.1)
+                        mysleep(0.1)
 
 
