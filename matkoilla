@@ -1,0 +1,45 @@
+#! /bin/bash
+
+# Ei kiinnosta virheet
+rm -f /home/tnoko/.xsession-errors
+ln -s /dev/null /home/tnoko/.xsession-errors
+rm -f /home/tnoko/TimeShift*.m2t
+
+# Energy Star + Screen saver OFF
+xset -dpms
+xset s 0 0
+xset s off
+
+echo Boot----- $( date ) >> /home/tnoko/Dropbox/Data/EIPINGAA.txt
+cp /home/tnoko/Dropbox/Data/dmesg.txt /home/tnoko/Dropbox/Data/dmesg.old
+
+#matkoilla=true
+matkoilla=false
+
+#siivoa-home-cache
+noko-x11vnc&
+#usb-camera-reset
+while ! ping -c 1 8.8.8.8 ; do sleep 1 ; done
+noko-topselien-virkistys&
+tallenna-IP-osoite& 
+webbicamera&
+dropbox start&
+mailme BOOTTAUS&
+wifi-watch&
+
+if $matkoilla ; then
+ yksiruutu
+ xfce4-terminal&
+
+else
+ inframelua&
+ kaffeine&
+ kello&
+ kellowatch&
+ /home/tnoko/micropython/temp_probe/makuusoppi.py&
+ /home/tnoko/micropython/cozylife/cozynoko.py&
+fi
+
+
+
+

@@ -1,24 +1,24 @@
-# Wifi and vahtikoira watch
-vahtikoira off
-sleep 500
+#! /bin/bash
+while ! ping -c 1 8.8.8.8 ; do sleep 1 ; done
+while ! ping -c 1 Vahtikoira ; do sleep 1 ; done
+sleep 1
 vahtikoira on
+ulostus2 " vahtikoira "
 while true ; do
-      if ping -c 1 Vahtikoira ; then
+      if ping -c 1 8.8.8.8 ; then
         echo Pingaa
         sleep 60
       else
-	notify-send "VAHTIKOIRA PING FAIL, 10 Min ja Wifi-rebo"
+	notify-send "8.8.8.8 PING FAIL, 10 Min ja Wifi-reboot"
 	sleep 600
-        if ping -c 1 Vahtikoira ; then
+        if ping -c 1 8.8.8.8 ; then
 	        echo Pingaa
         	sleep 60
 	else 
              echo EI Pingaa
-	     wifi-off
-	     sleep 5
-	     wifi-on
-	     echo Wifi Rebo (no Vahtikoira) $( date ) >> /home/tnoko/Dropbox/Data/EIPINGAA.txt
-	     sleep 120
+	     echo Wifi Rebo no 8.8.8.8 $( date ) >> /home/tnoko/Dropbox/Data/EIPINGAA.txt
+	     sleep 10
+	     curl-silent Vahtikoira/reset
 	fi
       fi
 done
